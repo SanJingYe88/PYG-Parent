@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://code.alibabatech.com/schema/dubbo
+                http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes" value="application/json" />
+				<property name="features">
+					<array>
+						<value>WriteMapNullValue</value>
+						<value>WriteDateUseDateFormat</value>
+					</array>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!--定义了服务提供者应用信息，用于计算依赖关系；在 dubbo-admin 会显示这个名字，方便辨识 -->
+	<dubbo:application name="PYG-Manager-Web" />
+	<!--使用 zookeeper 注册中心暴露服务，注意要先启动 zookeeper -->
+	<dubbo:registry address="zookeeper://localhost:2181" />
+	<!-- 使用 dubbo 的包扫描,扫描 controller 类所在的包 -->
+	<dubbo:annotation package="it.com.pyg.manager.controller"></dubbo:annotation>
+</beans>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://code.alibabatech.com/schema/dubbo
+				http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 用 dubbo 协议在 20881 端口暴露服务 -->
+	<!-- 20881  是自己去访问注册中心时的端口, 不可以重复. 因为要再同一台机器上运行多个服务, 所以需要明确的指定出来. -->
+	<dubbo:protocol name="dubbo" port="20881" />
+	<!--定义了服务提供者应用信息,在 dubbo-admin会显示这个名字，方便辨识 -->
+	<dubbo:application name="PYG-SellerGoods-Service"/>
+	<!--使用 zookeeper 注册中心暴露服务，注意要先启动 zookeeper -->
+	<dubbo:registry address="zookeeper://localhost:2181" />
+	<!-- 使用 dubbo 的包扫描,扫描 UserServiceImpl 所在的包 -->
+	<dubbo:annotation package="it.com.pyg.service.impl"></dubbo:annotation>
+
+</beans>
