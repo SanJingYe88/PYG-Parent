@@ -2,14 +2,17 @@ package it.com.pyg.entity;
 
 import java.io.Serializable;
 
+/*
+ * 品牌实体类
+ */
 public class Brand implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private Long id;		//编号
 
-    private String name;
+    private String name;	//品牌名
 
-    private String firstChar;
+    private String firstChar;	//首字母
 
     public Long getId() {
         return id;
@@ -34,4 +37,9 @@ public class Brand implements Serializable{
     public void setFirstChar(String firstChar) {
         this.firstChar = firstChar == null ? null : firstChar.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Brand [id=" + id + ", name=" + name + ", firstChar=" + firstChar + "]";
+	}
 }

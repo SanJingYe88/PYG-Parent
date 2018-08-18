@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- status 属性: 指定日志输出级别, OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE 
+	> ALL -->
+<!-- monitorInterval 属性 : 每隔300秒重新读取配置文件, 类似于热加载 -->
+<configuration status="error" monitorInterval="300">
+
+	<!-- 定义所有的日志输出位置 appender -->
+	<appenders>
+
+		<!-- 输出到控制台的配置 -->
+		<!-- target 属性 : 可以是 SYSTEM_OUT 或者 SYSTEM_ERR -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<!-- 输出日志的级别, 添加过滤器ThresholdFilter 指定只输出level及以上级别的信息（onMatch）, 其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="trace" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<!-- 输出日志的格式 -->
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</Console>
+	</appenders>
+
+	<!-- 记录器 logger, 只有在 logger 中引入的 appender 才会生效 -->
+	<loggers>
+		<!-- 默认的 root 的 logger, 当appender没有指定输出级别时,使用这个输出级别 -->
+		<root level="trace">
+			<!-- 指定每个 appender 的日志输出级别 -->
+			<AppenderRef ref="Console" level="DEBUG" />
+		</root>
+	</loggers>
+</configuration>

@@ -7,46 +7,206 @@
   <meta name="Keywords" content="">
   <meta name="Description" content="">
  </head>
- 	<!-- 引入Angular -->
-	<script type="text/javascript" src="../static/js/angular.min.js"></script>
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+	<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+	<!-- 引入Angular -->
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<!-- 引入分页组件 -->
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<script src="../plugins/angularjs/pagination.js"></script>
 
-	<!-- 在控制器层定义模块, 定义控制器 -->
 	<script type="text/javascript">
-
-		//定义模块,定义了一个叫myapp的模块.
-		//参数1:模块名
-		//参数2:该模块所引用的其他模块的名字
-		var app = angular.module('pyg',[]);
-
-		//通过模块创建控制器
-		//参数1:控制器的名称
-		//参数2:函数function()
-		app.controller('brandController',function($scope,$http){	//依赖注入,需要哪个服务,就需要在这里添加
-
-			//定义方法
-			$scope.getAllBrand = function(){
-				//发送请求.
-				//参数:请求地址
-				//success: 请求成功后执行的回调方法
-				$http.get('../brand/getAll.do').success(	//success方法可以接受一个函数类型的参数
-					function(response){		//response 表示请求的返回结果,这个名字随意
+		var app = angular.module('pyg',['pagination']);
+		
+		//获取所有
+		app.controller('brandController',function($scope,$http){
+			
+			//分页控件配置
+			$scope.paginationConf = {
+				currentPage: 1,		//当前页
+				//totalItems: 1000000,		//总记录数
+				itemsPerPage: 10,	//每页记录数
+				perPageOptions: [10, 20, 30, 40, 50],	//分页选项,每页显示多少条记录
+				onChange: function(){		//当页码变更后自动触发的方法 
+					$scope.reloadList("onchange");
+				}
+			};
+			
+			//重新加载列表 数据
+			$scope.reloadList = function(){
+				//切换页码  
+				$scope.getByPage($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
+			};
+			
+			//分页获取
+			$scope.getByPage = function(page, size){
+				$http.get('../brand/getByPage.do?page=' + page + '&size=' + size).success(
+					function(response){
 						console.log(response);
-						$scope.brands = response;
+						$scope.list = response.rows;
+						$scope.paginationConf.totalItems = response.total;	//更新总记录数
 					}
 				);
-			}	
+			};
+			
+			//新增
+			$scope.save = function() {
+				console.log($scope.entity);
+				var methodName = 'add';		//方法名 
+				if ($scope.entity.id != null) {
+					methodName = 'update';
+				}
+				$http.post('../brand/' + methodName + '.do', $scope.entity).success(
+					function(response) {
+						if (response.success) {
+							$scope.reloadList();	//刷新
+						} else {
+							alert(response.message);
+						}
+					}
+				);
+			} 
+
+ 			//查询实体
+			$scope.getById = function(id) {
+ 				console.log(id);
+				$http.get('../brand/get/' + id + ".do").success(
+					function(response) {
+						console.log(response);
+						$scope.entity = response.data.brand;
+					}
+				);
+			}
+
+ 			$scope.selectIds = [];	//用户勾选的ID集合 
+			//用户勾选复选框 
+			$scope.updateSelection = function($event, id) {
+				if ($event.target.checked) {
+					$scope.selectIds.push(id);	//push向集合添加元素 					
+				} else {
+					var index = $scope.selectIds.indexOf(id);	//查找值的 位置
+					$scope.selectIds.splice(index, 1);	//参数1：移除的位置 参数2：移除的个数  
+				}
+			}
+
+ 			//删除
+			$scope.dele = function() {
+				if (confirm('确定要删除吗？')) {
+					$http.get('../brand/deleteBatch.do?ids=' + $scope.selectIds).success(function(response) {
+						if (response.success) {
+							$scope.reloadList();	//刷新
+						} else {
+							alert(response.message);
+						}
+					});
+				}
+			}
+
+ 			$scope.searchEntity = {};
+			//条件查询 
+			$scope.search = function(page, size) {
+				$http.post('../brand/search.do?page=' + page + '&size=' + size, $scope.searchEntity)
+					.success(function(response) {
+						$scope.list = response.rows;	//显示当前页数据 	
+						$scope.paginationConf.totalItems = response.total;	//更新总记录数 
+				});
+			} 
 		});
 	</script>
 
 	<!-- 在视图层,指定模块,指定控制器 -->
-	<body ng-app="pyg" ng-controller="brandController" ng-init="getAllBrand()">
-		<table>
-			<!-- 循环输出 -->
-			<tr ng-repeat="brand in brands">
-				<td>{{ brand.id }}</td>
-				<td>{{ brand.name }}</td>
-				<td>{{ brand.firstChar }}</td>
-			</tr>	
-		</table>
-	</body>
+<body class="hold-transition skin-red sidebar-mini" ng-app="pyg" ng-controller="brandController">
+	<!-- .box-body -->
+    <div class="box-header with-border">
+        <h3 class="box-title">品牌管理</h3>
+    </div>
+
+    <div class="box-body">
+        <!-- 数据表格 -->
+        <div class="table-box">
+            <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ng-click="entity={}" ><i class="fa fa-file-o"></i> 新建</button>
+                        <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o" ></i> 删除</button>           
+                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-tools pull-right">
+                <div class="has-feedback">
+                	品牌名称:<input ng-model="searchEntity.name">
+                	品牌首字母:<input ng-model="searchEntity.firstChar">  
+ 					<button  class="btn btn-default" ng-click="reloadList()">查询</button>                               
+                </div>
+            </div>
+            <!--工具栏/-->
+
+		     <!--数据列表-->
+		     <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+		         <thead>
+		             <tr>
+		                 <th class="" style="padding-right:0px">
+		                     <input id="selall" type="checkbox" class="icheckbox_square-blue">
+		                 </th> 
+						<th class="sorting_asc">品牌ID</th>
+						<th class="sorting">品牌名称</th>									      
+						<th class="sorting">品牌首字母</th>									     				
+		                <th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="entity in list">
+					<td><input  type="checkbox" ng-click="updateSelection($event, entity.id)" ></td>			                              
+					<td>{{entity.id}}</td>
+					<td>{{entity.name}}</td>									     
+		            <td>{{entity.firstChar}}</td>		                                 
+		            <td class="text-center">                                           
+		           	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="getById(entity.id)" >修改</button>                                           
+		            </td>
+		             </tr>
+				</tbody>
+			</table>
+			<!--数据列表/-->
+	
+			<!-- 分页插件的分页条 -->                        
+			<tm-pagination conf="paginationConf"></tm-pagination>
+		</div>
+		<!-- 数据表格 /-->
+	</div>
+    <!-- /.box-body -->
+
+	<!-- 编辑窗口 -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" >
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">品牌编辑</h3>
+			</div>
+			<div class="modal-body">		
+				<table class="table table-bordered table-striped"  width="800px">
+			      	<tr>
+			      		<td>品牌名称</td>
+			      		<td><input  class="form-control" placeholder="品牌名称" ng-model="entity.name">  </td>
+			      	</tr>		      	
+			      	<tr>
+			      		<td>首字母</td>
+			      		<td><input  class="form-control" placeholder="首字母" ng-model="entity.firstChar">  </td>
+			      	</tr>		      	
+				 </table>				
+			</div>
+			<div class="modal-footer">						
+				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</button>
+				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		  </div>
+		</div>
+	</div>
+</body>
 </html>
