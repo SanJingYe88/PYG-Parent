@@ -1,7 +1,11 @@
 package it.com.pyg.entity;
 
-public class Cities {
-    private Integer id;
+import java.io.Serializable;
+
+public class Cities implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private String cityid;
 

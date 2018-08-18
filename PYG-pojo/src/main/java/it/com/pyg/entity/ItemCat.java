@@ -1,7 +1,11 @@
 package it.com.pyg.entity;
 
-public class ItemCat {
-    private Long id;
+import java.io.Serializable;
+
+public class ItemCat implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private Long parentId;
 

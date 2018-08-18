@@ -1,9 +1,12 @@
 package it.com.pyg.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Address {
-    private Long id;
+public class Address implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private String userId;
 

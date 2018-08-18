@@ -1,10 +1,13 @@
 package it.com.pyg.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SeckillGood {
-    private Long id;
+public class SeckillGood implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private Long goodsId;
 

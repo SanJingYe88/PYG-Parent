@@ -1,9 +1,12 @@
 package it.com.pyg.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Seller {
-    private String sellerId;
+public class Seller implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private String sellerId;
 
     private String name;
 

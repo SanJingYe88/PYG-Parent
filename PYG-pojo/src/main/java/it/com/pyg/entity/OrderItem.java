@@ -1,9 +1,12 @@
 package it.com.pyg.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class OrderItem {
-    private Long id;
+public class OrderItem implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private Long itemId;
 

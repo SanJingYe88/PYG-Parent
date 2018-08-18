@@ -1,7 +1,11 @@
 package it.com.pyg.entity;
 
-public class SpecificationOption {
-    private Long id;
+import java.io.Serializable;
+
+public class SpecificationOption implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private String optionName;
 

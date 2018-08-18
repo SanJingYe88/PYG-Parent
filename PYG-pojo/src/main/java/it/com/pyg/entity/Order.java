@@ -1,10 +1,13 @@
 package it.com.pyg.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Order {
-    private Long orderId;
+public class Order implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Long orderId;
 
     private BigDecimal payment;
 
