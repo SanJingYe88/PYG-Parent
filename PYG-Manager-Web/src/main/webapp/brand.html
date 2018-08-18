@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> Brand </title>
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+ </head>
+ 	<!-- 引入Angular -->
+	<script type="text/javascript" src="../static/js/angular.min.js"></script>
+
+	<!-- 在控制器层定义模块, 定义控制器 -->
+	<script type="text/javascript">
+
+		//定义模块,定义了一个叫myapp的模块.
+		//参数1:模块名
+		//参数2:该模块所引用的其他模块的名字
+		var app = angular.module('pyg',[]);
+
+		//通过模块创建控制器
+		//参数1:控制器的名称
+		//参数2:函数function()
+		app.controller('brandController',function($scope,$http){	//依赖注入,需要哪个服务,就需要在这里添加
+
+			//定义方法
+			$scope.getAllBrand = function(){
+				//发送请求.
+				//参数:请求地址
+				//success: 请求成功后执行的回调方法
+				$http.get('../brand/getAll.do').success(	//success方法可以接受一个函数类型的参数
+					function(response){		//response 表示请求的返回结果,这个名字随意
+						console.log(response);
+						$scope.brands = response;
+					}
+				);
+			}	
+		});
+	</script>
+
+	<!-- 在视图层,指定模块,指定控制器 -->
+	<body ng-app="pyg" ng-controller="brandController" ng-init="getAllBrand()">
+		<table>
+			<!-- 循环输出 -->
+			<tr ng-repeat="brand in brands">
+				<td>{{ brand.id }}</td>
+				<td>{{ brand.name }}</td>
+				<td>{{ brand.firstChar }}</td>
+			</tr>	
+		</table>
+	</body>
+</html>
