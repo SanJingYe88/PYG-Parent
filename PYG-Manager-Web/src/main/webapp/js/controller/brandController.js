@@ -6,8 +6,8 @@ app.controller("brandController", function($scope, $controller, brandService) { 
 
 	// 查询实体
 	$scope.getById = function(id) {
+		//调用服务层的方法
 		brandService.getById(id).success(function(response) {
-			console.log(response);
 			$scope.entity = response.data.brand;
 		});
 	}
@@ -43,8 +43,6 @@ app.controller("brandController", function($scope, $controller, brandService) { 
 	$scope.searchEntity = {};
 	// 搜索
 	$scope.search = function(page, size) {
-		console.log("search");
-		console.log($scope.searchEntity);
 		brandService.search(page, size, $scope.searchEntity).success(function(response) {
 			$scope.list = response.rows;
 			$scope.paginationConf.totalItems = response.total;
