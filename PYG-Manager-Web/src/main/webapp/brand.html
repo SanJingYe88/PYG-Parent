@@ -19,104 +19,14 @@
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
 	<script src="../plugins/angularjs/pagination.js"></script>
 
-	<script type="text/javascript">
-		var app = angular.module('pyg',['pagination']);
-		
-		//获取所有
-		app.controller('brandController',function($scope,$http){
-			
-			//分页控件配置
-			$scope.paginationConf = {
-				currentPage: 1,		//当前页
-				//totalItems: 1000000,		//总记录数
-				itemsPerPage: 10,	//每页记录数
-				perPageOptions: [10, 20, 30, 40, 50],	//分页选项,每页显示多少条记录
-				onChange: function(){		//当页码变更后自动触发的方法 
-					$scope.reloadList("onchange");
-				}
-			};
-			
-			//重新加载列表 数据
-			$scope.reloadList = function(){
-				//切换页码  
-				$scope.getByPage($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
-			};
-			
-			//分页获取
-			$scope.getByPage = function(page, size){
-				$http.get('../brand/getByPage.do?page=' + page + '&size=' + size).success(
-					function(response){
-						console.log(response);
-						$scope.list = response.rows;
-						$scope.paginationConf.totalItems = response.total;	//更新总记录数
-					}
-				);
-			};
-			
-			//新增
-			$scope.save = function() {
-				console.log($scope.entity);
-				var methodName = 'add';		//方法名 
-				if ($scope.entity.id != null) {
-					methodName = 'update';
-				}
-				$http.post('../brand/' + methodName + '.do', $scope.entity).success(
-					function(response) {
-						if (response.success) {
-							$scope.reloadList();	//刷新
-						} else {
-							alert(response.message);
-						}
-					}
-				);
-			} 
-
- 			//查询实体
-			$scope.getById = function(id) {
- 				console.log(id);
-				$http.get('../brand/get/' + id + ".do").success(
-					function(response) {
-						console.log(response);
-						$scope.entity = response.data.brand;
-					}
-				);
-			}
-
- 			$scope.selectIds = [];	//用户勾选的ID集合 
-			//用户勾选复选框 
-			$scope.updateSelection = function($event, id) {
-				if ($event.target.checked) {
-					$scope.selectIds.push(id);	//push向集合添加元素 					
-				} else {
-					var index = $scope.selectIds.indexOf(id);	//查找值的 位置
-					$scope.selectIds.splice(index, 1);	//参数1：移除的位置 参数2：移除的个数  
-				}
-			}
-
- 			//删除
-			$scope.dele = function() {
-				if (confirm('确定要删除吗？')) {
-					$http.get('../brand/deleteBatch.do?ids=' + $scope.selectIds).success(function(response) {
-						if (response.success) {
-							$scope.reloadList();	//刷新
-						} else {
-							alert(response.message);
-						}
-					});
-				}
-			}
-
- 			$scope.searchEntity = {};
-			//条件查询 
-			$scope.search = function(page, size) {
-				$http.post('../brand/search.do?page=' + page + '&size=' + size, $scope.searchEntity)
-					.success(function(response) {
-						$scope.list = response.rows;	//显示当前页数据 	
-						$scope.paginationConf.totalItems = response.total;	//更新总记录数 
-				});
-			} 
-		});
-	</script>
+	<!-- 引入带分页的 base.js , 如果不需要分页,则引入 base.js 即可. -->
+	<script type="text/javascript" src="../js/base/base_pagination.js"></script>
+	<!-- 引入服务层 -->
+	<script type="text/javascript" src="../js/service/brandService.js"></script>
+	<!-- 引入base控制层 -->
+	<script type="text/javascript" src="../js/base/baseController.js"></script>
+	<!-- 引入控制层 -->
+	<script type="text/javascript" src="../js/controller/brandController.js"></script>
 
 	<!-- 在视图层,指定模块,指定控制器 -->
 <body class="hold-transition skin-red sidebar-mini" ng-app="pyg" ng-controller="brandController">

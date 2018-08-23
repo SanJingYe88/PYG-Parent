@@ -1,7 +1,6 @@
 package it.com.pyg.manager.controller;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,11 +26,7 @@ public class BrandController {
 	@Reference
 	private BrandService brandService;
 	
-	@RequestMapping("/getAll")
-	public List<Brand> getAll(){
-		return brandService.getAll();
-	}
-	
+	//分页获取
 	@RequestMapping("/getByPage")
 	public PageResult getByPage(Integer page, Integer size){
 		Logger.info("page={},size={}",page,size);
@@ -40,6 +35,7 @@ public class BrandController {
 		return pageResult;
 	}
 	
+	//根据ID获取
 	@RequestMapping("/get/{id}")
 	public Result getById(@PathVariable(value="id") Long id){
 		Logger.info("id={}",id);
@@ -48,6 +44,7 @@ public class BrandController {
 		return result;
 	}
 	
+	//根据ID删除
 	@RequestMapping("/delete/{id}")
 	public Result delete(@PathVariable(value="id") Long id){
 		Logger.info("id={}",id);
@@ -56,6 +53,7 @@ public class BrandController {
 		return result;
 	}
 	
+	//批量删除
 	@RequestMapping("/deleteBatch")
 	public Result deleteBatch(Long[] ids){
 		Logger.info("ids={}",Arrays.toString(ids));
@@ -64,6 +62,7 @@ public class BrandController {
 		return result;
 	}
 	
+	//新增
 	@PostMapping("/add")
 	public Result add(@RequestBody Brand brand){
 		Logger.info("brand={}",brand);
@@ -72,6 +71,7 @@ public class BrandController {
 		return result;
 	}
 	
+	//修改
 	@PostMapping("/update")
 	public Result update(@RequestBody Brand brand){
 		Logger.info("brand={}",brand);
@@ -80,6 +80,7 @@ public class BrandController {
 		return result;
 	}
 	
+	//条件查询
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody Brand brand,Integer page, Integer size){
 		Logger.info("brand={},page={},size={}",brand,page,size);

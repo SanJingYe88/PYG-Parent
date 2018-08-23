@@ -106,11 +106,13 @@ public class BrandServiceImpl implements BrandService {
 	public PageResult search(Brand brand,Integer page,Integer size) {
 		BrandExample example = new BrandExample();
 		Criteria createCriteria = example.createCriteria();
-		if(brand.getName() != null){
-			createCriteria.andNameEqualTo(brand.getName());
-		}
-		if(brand.getFirstChar() != null){
-			createCriteria.andFirstCharEqualTo(brand.getFirstChar());
+		if(brand != null){
+			if(brand.getName() != null && !brand.getName().trim().equals("")){
+				createCriteria.andNameEqualTo(brand.getName());
+			}
+			if(brand.getFirstChar() != null && !brand.getFirstChar().trim().equals("")){
+				createCriteria.andFirstCharEqualTo(brand.getFirstChar());
+			}
 		}
 		PageHelper.startPage(page,size);
 		List<Brand> list = brandMapper.selectByExample(example);
