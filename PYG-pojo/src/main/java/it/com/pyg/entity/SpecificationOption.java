@@ -2,16 +2,19 @@ package it.com.pyg.entity;
 
 import java.io.Serializable;
 
+/*
+ * 规格选项
+ */
 public class SpecificationOption implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
-    private String optionName;
+    private String optionName;	//规格选项名称
 
-    private Long specId;
+    private Long specId;	//所属的规格
 
-    private Integer orders;
+    private Integer orders;	//排序优先级
 
     public Long getId() {
         return id;

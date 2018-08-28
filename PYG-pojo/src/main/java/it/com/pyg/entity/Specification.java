@@ -2,12 +2,15 @@ package it.com.pyg.entity;
 
 import java.io.Serializable;
 
+/*
+ * 规格
+ */
 public class Specification implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
-    private String specName;
+    private String specName;	//规格名称
 
     public Long getId() {
         return id;
