@@ -27,4 +27,9 @@ public class Specification implements Serializable{
     public void setSpecName(String specName) {
         this.specName = specName == null ? null : specName.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Specification [id=" + id + ", specName=" + specName + "]";
+	}
 }

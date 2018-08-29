@@ -47,4 +47,10 @@ public class SpecificationOption implements Serializable{
     public void setOrders(Integer orders) {
         this.orders = orders;
     }
+
+	@Override
+	public String toString() {
+		return "SpecificationOption [id=" + id + ", optionName=" + optionName + ", specId=" + specId + ", orders="
+				+ orders + "]";
+	}
 }

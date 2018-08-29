@@ -55,11 +55,14 @@ public class SpecificationServiceImpl implements SpecificationService {
 	@Override
 	public Result add(SpecificationGroup specificationGroup) {
 		//获取规格实体
-		Specification specification = specificationGroup.getSpecification();				
+		Specification specification = specificationGroup.getSpecification();
+		Logger.info("specification={}",specification);
 		specificationMapper.insert(specification);	
+		Logger.info("specification={}",specification);
 		
 		//获取规格选项集合
 		List<SpecificationOption> specificationOptions = specificationGroup.getSpecificationOptions();
+		Logger.info("specificationOptions={}",specificationOptions.toString());
 		for(SpecificationOption option:specificationOptions){
 			option.setSpecId(specification.getId());		//设置规格ID
 			specificationOptionMapper.insert(option);		//新增规格

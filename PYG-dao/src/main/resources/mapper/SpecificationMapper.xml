@@ -97,6 +97,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="it.com.pyg.entity.Specification">
+	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+		select LAST_INSERT_ID()
+	</selectKey>
     insert into tb_specification (id, spec_name)
     values (#{id,jdbcType=BIGINT}, #{specName,jdbcType=VARCHAR})
   </insert>
