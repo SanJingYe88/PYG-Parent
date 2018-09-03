@@ -96,7 +96,7 @@ public class BrandServiceImpl implements BrandService {
 		//有选择的修改
 		int i = brandMapper.updateByPrimaryKeySelective(brand);
 		if(i <= 0){
-			Logger.info("{}","添加失败");	
+			Logger.info("{}","修改失败");	
 			return Result.fail("修改失败", null);		
 		}
 		return Result.success("修改成功", null);
