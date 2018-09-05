@@ -22,6 +22,9 @@ import it.com.pyg.entity.TypeTemplateExample.Criteria;
 import it.com.pyg.mapper.TypeTemplateMapper;
 import it.com.pyg.sellergoods.service.TypeTemplateService;
 
+/*
+ * 模板管理
+ */
 @Service
 public class TypeTemplateServiceImpl implements TypeTemplateService {
 	
@@ -83,7 +86,6 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
 	@Override
 	public Result deleteBatch(Long[] ids) {
-		
 		TypeTemplateExample example = new TypeTemplateExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andIdIn(Arrays.asList(ids));
@@ -95,7 +97,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	}
 
 	@Override
-	public PageResult findPage(TypeTemplate typeTemplate, int pageNum, int pageSize) {
+	public PageResult search(TypeTemplate typeTemplate, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 
 		TypeTemplateExample example = new TypeTemplateExample();
@@ -114,7 +116,6 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 			if (typeTemplate.getCustomAttributeItems() != null && typeTemplate.getCustomAttributeItems().length() > 0) {
 				criteria.andCustomAttributeItemsLike("%" + typeTemplate.getCustomAttributeItems() + "%");
 			}
-
 		}
 
 		Page<TypeTemplate> page = (Page<TypeTemplate>) typeTemplateMapper.selectByExample(example);

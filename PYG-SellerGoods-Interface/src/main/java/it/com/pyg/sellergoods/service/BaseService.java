@@ -29,5 +29,5 @@ public interface BaseService<T> {
 	Result update(T t);
 
 	// 分页条件查询
-	PageResult findPage(T t, int pageNum, int pageSize);
+	PageResult search(T t, int pageNum, int pageSize);
 }
