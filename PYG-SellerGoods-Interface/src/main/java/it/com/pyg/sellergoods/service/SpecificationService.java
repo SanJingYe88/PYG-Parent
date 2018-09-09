@@ -1,7 +1,6 @@
 package it.com.pyg.sellergoods.service;
 
 import java.util.List;
-import java.util.Map;
 
 import it.com.pyg.bean.PageResult;
 import it.com.pyg.bean.Result;
@@ -25,5 +24,5 @@ public interface SpecificationService {
 	PageResult search(Specification specification, Integer pageNum, Integer pageSize);
 	
 	//获取规格选项
-	List<Map<String,Object>> selectOptionList();
+	Result selectOptionList();
 }

@@ -69,6 +69,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	@Override
 	public Result getById(Long id) {
 		TypeTemplate typeTemplate = typeTemplateMapper.selectByPrimaryKey(id);
+		Logger.info("typeTemplate={}", typeTemplate);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("typeTemplate", typeTemplate);
 		Result result = Result.success("查询成功", map);
@@ -117,8 +118,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 				criteria.andCustomAttributeItemsLike("%" + typeTemplate.getCustomAttributeItems() + "%");
 			}
 		}
-
-		Page<TypeTemplate> page = (Page<TypeTemplate>) typeTemplateMapper.selectByExample(example);
+		List<TypeTemplate> list = typeTemplateMapper.selectByExample(example);
+		Logger.info("list={}",list);
+		Page<TypeTemplate> page = (Page<TypeTemplate>) list;
 		return new PageResult(page.getTotal(), page.getResult());
 	}
 }

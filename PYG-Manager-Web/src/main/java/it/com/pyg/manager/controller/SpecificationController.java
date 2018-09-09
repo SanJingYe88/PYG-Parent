@@ -72,8 +72,8 @@ public class SpecificationController {
 		return specificationService.search(specification, page, rows);		
 	}
 	
-//	@RequestMapping("/selectOptionList")
-//	public List<Map> selectOptionList(){
-//		return specificationService.selectOptionList();
-//	}
+	@RequestMapping("/selectOptionList")
+	public Result selectOptionList(){
+		return specificationService.selectOptionList();
+	}
 }

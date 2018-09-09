@@ -29,4 +29,20 @@ app.controller('baseController', function($scope) {
 			$scope.selectIds.splice(idx, 1);//删除 
 		}
 	}
+	
+	// JSON -> String
+	// key : 要显示的属性
+	$scope.jsonToString = function(jsonString, key){
+		var json = JSON.parse(jsonString);	//json -> json 对象
+		var value = "";
+		console.log(value);
+		for (var i = 0; i < json.length; i++) {
+			if (i > 0) {
+				value += ",";
+			}
+			value += json[i][key];
+		}
+		console.log(value);
+		return value;
+	}
 });

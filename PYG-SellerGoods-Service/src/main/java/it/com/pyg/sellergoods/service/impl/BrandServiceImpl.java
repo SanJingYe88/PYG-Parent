@@ -132,4 +132,13 @@ public class BrandServiceImpl implements BrandService {
 		}
 		return Result.success("删除成功", null);
 	}
+
+	@Override
+	public Result selectBrandsForSelect2() {
+		List<Map<String,String>> list = brandMapper.selectBrandsForSelect2();
+		Logger.info("list={}",list);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("data", list);
+		return Result.success("查询成功", map);
+	}
 }

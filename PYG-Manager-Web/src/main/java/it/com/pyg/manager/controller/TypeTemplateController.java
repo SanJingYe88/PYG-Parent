@@ -38,13 +38,13 @@ public class TypeTemplateController {
 	}
 	
 	@RequestMapping(value="add",method=RequestMethod.POST)
-	public Result add(TypeTemplate typeTemplate) {
+	public Result add(@RequestBody TypeTemplate typeTemplate) {
 		Logger.info("typeTemplate={}",typeTemplate);
 		return templateService.add(typeTemplate);
 	}
 	
-	@RequestMapping("update")
-	public Result update(TypeTemplate typeTemplate) {
+	@RequestMapping(value="update",method=RequestMethod.POST)
+	public Result update(@RequestBody TypeTemplate typeTemplate) {
 		Logger.info("typeTemplate={}",typeTemplate);
 		return templateService.update(typeTemplate);
 	}
@@ -62,8 +62,10 @@ public class TypeTemplateController {
 	}
 	
 	@RequestMapping("/search")
-	public PageResult search(@RequestBody TypeTemplate typeTemplate, int page, int rows){
+	public PageResult search(@RequestBody TypeTemplate typeTemplate, int page, int size){
 		Logger.info("typeTemplate={}",typeTemplate);
-		return templateService.search(typeTemplate, page, rows);		
+		Logger.info("page={}",page);
+		Logger.info("size={}",size);
+		return templateService.search(typeTemplate, page, size);		
 	}
 }

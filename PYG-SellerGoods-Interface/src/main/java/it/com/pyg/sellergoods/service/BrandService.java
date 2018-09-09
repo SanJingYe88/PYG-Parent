@@ -32,4 +32,7 @@ public interface BrandService {
 
 	//分页条件查询
 	PageResult search(Brand brand,Integer page,Integer size);
+	
+	//查询列表,返回select2需要的 
+	Result selectBrandsForSelect2();
 }

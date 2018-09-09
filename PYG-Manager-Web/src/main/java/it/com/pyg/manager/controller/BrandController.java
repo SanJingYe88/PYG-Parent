@@ -88,4 +88,10 @@ public class BrandController {
 		Logger.info("result={}",result);
 		return result;
 	}
+	
+	//返回select2所需要的格式	
+	@RequestMapping("/forSelect2")
+	public Result selectBrandsForSelect2(){
+		return brandService.selectBrandsForSelect2();
+	} 
 }

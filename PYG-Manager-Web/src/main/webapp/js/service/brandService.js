@@ -24,4 +24,8 @@ app.service('brandService',function($http){
 	this.search = function(page,size,searchEntity){
 		return $http.post('../brand/search.do?page='+page+"&size="+size, searchEntity);
 	}  
+	//查询列表,返回select2需要的 
+	this.findBrandList = function(){
+		return $http.post('../brand/forSelect2.do');
+	}  
 });

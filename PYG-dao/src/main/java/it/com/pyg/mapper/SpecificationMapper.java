@@ -3,6 +3,8 @@ package it.com.pyg.mapper;
 import it.com.pyg.entity.Specification;
 import it.com.pyg.entity.SpecificationExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface SpecificationMapper {
@@ -27,4 +29,6 @@ public interface SpecificationMapper {
     int updateByPrimaryKeySelective(Specification record);
 
     int updateByPrimaryKey(Specification record);
+    
+    List<Map<String,String>> selectOptionList();
 }

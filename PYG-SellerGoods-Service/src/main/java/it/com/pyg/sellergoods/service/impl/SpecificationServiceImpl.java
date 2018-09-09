@@ -155,8 +155,10 @@ public class SpecificationServiceImpl implements SpecificationService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectOptionList() {
-		// TODO Auto-generated method stub
-		return null;
+	public Result selectOptionList() {
+		List<Map<String,String>> list = specificationMapper.selectOptionList();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("data", list);
+		return Result.success("查询成功", map);
 	}
 }
